@@ -16,5 +16,11 @@
   "mochaExplorer.timeout": 20000,
   "prettier.disableLanguages": ["javascript", "typescript"],
   "prettier.enable": true,
-  "tslint.enable": false
+  "tslint.enable": false,
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
 }
