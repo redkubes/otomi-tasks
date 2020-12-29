@@ -12,10 +12,11 @@ const revisionSchemaKeys: string[] = [
   'version',
 ]
 
+const revision = fs.readFileSync(path.join(__dirname, 'revision.yaml'), 'utf8')
+
 describe('YAML parsing', () => {
   it('should have one of the revisionSchemaKeys', (done) => {
-    const revision = fs.readFileSync(path.join(__dirname, 'revision.yaml'), 'utf8')
-    console.log(YAML.parseAllDocuments(revision))
+    console.log(YAML.parseAllDocuments(revision).toString())
     done()
   })
 })
