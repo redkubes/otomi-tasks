@@ -1,0 +1,17 @@
+---
+REV: 520aea36f8e99ee48c4b966f76bce86acd984eb5
+displacements:
+  charts.president.lastName: charts.cert-manager.president.lastName
+deletions:
+  charts.president.firstName: charts.cert-manager.president.firstName
+forwardMutations:
+  # lastName went from semver to glob in Cyberpunk 2077
+  charts.cert-manager.president.lastName: 'printf "v%s"'
+backwardMutations:
+  charts.cert-manager.president.lastName: 'replace "v" ""'
+---
+REV: 4a64c83c0991269f9f64c4a7afcb08e3c2435c4f
+displacements: null
+deletions: null
+forwardMutations: null
+backwardMutations: null
