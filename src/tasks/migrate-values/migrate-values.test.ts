@@ -10,16 +10,10 @@ function findPath(fileName) {
 
 const mockIncomingChangesFileName = 'mock-incoming-changes.yaml'
 const mockIncomingChanges: any[] = yaml.safeLoadAll(fs.readFileSync(findPath(mockIncomingChangesFileName), 'utf-8'))
-// const revisionSchemaInterface
 
 describe('', () => {
-  before(async function () {
-    // Generate type declaration file
-    try {
-      console.log(await compileFromFile(findPath('../revision-schema.json')))
-    } catch (error) {
-      console.error(error)
-    }
+  before(function () {
+    //
   })
 
   after(function () {
@@ -34,8 +28,7 @@ describe('', () => {
     //
   })
 
-  it('will verify the incoming changes using the revisionSchema interface', (done) => {
-    // validateIncomingChanges(mockIncomingChanges, revisionSchemaInterface)
+  it('will check if ', (done) => {
     done()
   })
 })
