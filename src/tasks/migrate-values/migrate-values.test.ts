@@ -3,6 +3,7 @@ import { compile, compileFromFile } from 'json-schema-to-typescript'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+import { isValidOtomiPath } from './migrate-values'
 
 function findPath(fileName) {
   return path.join(__dirname, fileName)
@@ -28,7 +29,7 @@ describe('', () => {
     //
   })
 
-  it('will check if ', (done) => {
-    done()
+  it('will use a valid otomi-values repository', () => {
+    assert.isNotOk(isValidOtomiPath('random-not-working-path'))
   })
 })
