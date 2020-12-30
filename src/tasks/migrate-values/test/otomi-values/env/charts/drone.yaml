@@ -1,0 +1,13 @@
+charts:
+    drone:
+        enabled: false
+        debug: false
+        orgsFilter: redkubes
+        repoFilter: redkubes
+        githubAdmins:
+            org: redkubes
+            team: admins
+        sourceControl:
+            provider: github
+            github:
+                server: https://github.com

@@ -1,0 +1,8 @@
+charts:
+    external-dns:
+        domainFilters:
+            - aks.otomi.cloud
+        azure:
+            region: westeurope
+otomi:
+    hasCloudLB: true
