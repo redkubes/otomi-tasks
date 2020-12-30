@@ -1,0 +1,15 @@
+---
+$id: '0.2.0'
+$schema: 'http://json-schema.org/draft-07/schema'
+additionalProperties: false
+properties:
+  REV:
+    type: string
+  displacements:
+    type: string
+  deletions:
+    type: string
+  forwardMutations:
+    type: string
+  backwardMutations:
+    type: string

@@ -18,6 +18,7 @@
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
     "envalid": "^6.0.2",
+    "json-schema-to-typescript": "^10.0.3",
     "lodash": "^4.17.19",
     "lowdb": "^1.0.0",
     "morgan": "^1.10.0"
