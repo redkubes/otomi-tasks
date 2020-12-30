@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import fs from 'fs'
 import path from 'path'
-import YAML from 'yaml'
+import yaml from 'js-yaml'
 
 const revisionSchemaKeys: string[] = [
   'REV',
@@ -12,11 +12,11 @@ const revisionSchemaKeys: string[] = [
   'version',
 ]
 
-const revision = fs.readFileSync(path.join(__dirname, 'revision.yaml'), 'utf8')
+const revisionPath = fs.readFileSync(path.join(__dirname, 'revision.yaml'), 'utf8')
 
 describe('YAML parsing', () => {
   it('should have one of the revisionSchemaKeys', (done) => {
-    console.log(YAML.parseAllDocuments(revision).toString())
+    console.log(yaml.safeLoadAll(revisionPath))
     done()
   })
 })
