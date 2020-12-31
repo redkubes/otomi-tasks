@@ -1,6 +1,7 @@
 import { readdirSync } from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+import { isEmpty } from 'lodash'
 
 export function readOtomiValuesDir(path: string): object {
   const files: string[] = []
