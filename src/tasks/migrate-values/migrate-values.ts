@@ -7,22 +7,14 @@ export function readOtomiValuesDir(path: string): object {
   const envPath = path + '/env'
   try {
     readdirSync(envPath).forEach((file) => files.push(file))
-    console.log(files)
     return { env: files }
   } catch (error) {
-    console.error('Not an otomi-values directory: ' + error)
-    return {}
+    throw new Error(error)
   }
 }
 
 export function listEnvDirectory(envDirContents: object): object {
   return {
-    'otomi-values': {
-      env: ['charts', 'clouds', 'teams'],
-    },
+    'otomi-values': envDirContents,
   }
-}
-
-function main() {
-  //
 }

@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
 import * as mv from '../migrate-values'
-import { get, isEmpty, isEqual } from 'lodash'
+import { get, isEmpty, isEqual, isMatch } from 'lodash'
 
 const mockIncomingChangesFileName = 'mock-incoming-changes.yaml'
 const mockIncomingChanges = yaml.safeLoadAll(
@@ -11,33 +11,29 @@ const mockIncomingChanges = yaml.safeLoadAll(
 )
 
 describe('migrate-values.ts', () => {
+  const testPath = path.join(__dirname, 'otomi-values')
   describe('readOtomiValuesDir()', () => {
     it('can find something that looks like an otomi-values directory', () => {
-      const testPath = path.join(__dirname, 'otomi-values')
       assert(get(mv.readOtomiValuesDir(testPath), 'env', 'charts') !== undefined)
     })
-    it('should return {} with an invalid path', () => {
+    it('should throw an error with an invalid path', () => {
       const wrongPath = 'invalid-path'
       assert.throws(function () {
-        if (isEmpty(mv.readOtomiValuesDir(wrongPath))) {
-          throw new Error()
-        }
+        isEmpty(mv.readOtomiValuesDir(wrongPath))
       }, Error)
     })
-    it('should return {} with an empty path', () => {
+    it('should throw an error with an empty path', () => {
       const wrongPath = ''
       assert.throws(function () {
-        if (isEmpty(mv.readOtomiValuesDir(wrongPath))) {
-          throw new Error()
-        }
+        isEmpty(mv.readOtomiValuesDir(wrongPath))
       }, Error)
     })
   })
   describe('listEnvDirectory()', () => {
     it('can read the test directory otomi-values', () => {
-      const envDirPath = mv.readOtomiValuesDir(path.join(__dirname, 'otomi-values'))
+      const envDir = mv.readOtomiValuesDir(testPath)
       assert(
-        isEqual(mv.listEnvDirectory(envDirPath), {
+        isMatch(mv.listEnvDirectory(envDir), {
           'otomi-values': {
             env: ['charts', 'clouds', 'teams'],
           },
