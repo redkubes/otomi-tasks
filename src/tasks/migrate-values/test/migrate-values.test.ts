@@ -26,8 +26,12 @@ describe('migrate-values.ts', () => {
 
   describe('globWrapper()', () => {
     it('only works with /env sub-path', () => {
-      assert.include(mv.globWrapper(testPath), 'env', 'globWrapper() contains env substring')
+      assert.include(mv.globWrapper(testPath), 'env', 'globWrapper() must contain env substring')
     })
-    it('')
+    it(`it shouldn't work with a path-string without env`, () => {
+      assert.throws(function () {
+        mv.globWrapper('random-path')
+      }, 'Does not contain env substring')
+    })
   })
 })
