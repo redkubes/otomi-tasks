@@ -13,6 +13,7 @@ const mockIncomingChanges = yaml.safeLoadAll(
 
 describe('migrate-values.ts', () => {
   const testPath: string = __dirname + '/otomi-values/env'
+  const randomPath = 'random-path'
   if (!fs.existsSync(testPath)) {
     throw new Error(`
     'otomi-values' test-directory is not present. 
@@ -27,22 +28,24 @@ describe('migrate-values.ts', () => {
   describe('globWrapper()', () => {
     it('only works with /env sub-path', () => {
       assert.doesNotThrow(function () {
-        mv.globWrapper(testPath, (files) => {
-          //
-        })
+        mv.globWrapper(testPath)
       }, 'Does not contain env substring')
     })
     it(`it shouldn't work with a path-string without env`, () => {
       assert.throws(function () {
-        mv.globWrapper('random-path', (files) => {
-          //
-        })
+        mv.globWrapper(randomPath)
       }, 'Does not contain env substring')
     })
     it('should return list of yaml files', () => {
       mv.globWrapper(testPath, (files) => {
         assert.include(files.join(), '.yaml')
       })
+    })
+  })
+  describe('otomiValuesLoader()', () => {
+    const testPathList = mv.globWrapper(testPath)
+    it('cannot load yaml from empty list', () => {
+      assert.throws(mv.otomiValuesLoader(randomPath), yaml.YAMLException)
     })
   })
 })

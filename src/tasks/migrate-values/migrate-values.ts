@@ -1,6 +1,7 @@
 import glob from 'glob'
 
-export function globWrapper(path: string, cb) {
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function globWrapper(path: string, cb?: Function) {
   if (!path.includes('/env')) {
     throw new Error('Does not contain env substring')
   }
