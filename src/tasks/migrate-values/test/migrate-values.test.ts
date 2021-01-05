@@ -12,12 +12,12 @@ const mockIncomingChanges = yaml.safeLoadAll(
 )
 
 describe('migrate-values.ts', () => {
-  const testPath: string = __dirname + '/otomi-values/esnv'
+  const testPath: string = __dirname + '/otomi-values/env'
   if (!fs.existsSync(testPath)) {
     throw new Error(`
     'otomi-values' test-directory is not present. 
     This check prevents testing without a sample 'otomi-values' directory.
-    This test is pretty meaningless without it.
+    This test is meaningless without it.
 
     expected path: ${__dirname + '/otomi-values/env'}
     actual path: ${testPath}
@@ -26,8 +26,8 @@ describe('migrate-values.ts', () => {
 
   describe('globWrapper()', () => {
     it('only works with /env sub-path', () => {
-      console.log(testPath)
-      // assert.equal(globWrapper())
+      assert.include(mv.globWrapper(testPath), 'env', 'globWrapper() contains env substring')
     })
+    it('')
   })
 })
