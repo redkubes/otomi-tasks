@@ -24,7 +24,6 @@ describe('migrate-values.ts', () => {
     actual path: ${testPath}
     `)
   }
-
   describe('globWrapper()', () => {
     it('only works with /env sub-path', () => {
       assert.doesNotThrow(function () {
@@ -43,9 +42,12 @@ describe('migrate-values.ts', () => {
     })
   })
   describe('otomiValuesLoader()', () => {
-    const testPathList = mv.globWrapper(testPath)
-    it('cannot load yaml from empty list', () => {
-      assert.throws(mv.otomiValuesLoader(randomPath), yaml.YAMLException)
+    let testPathList = ''
+    mv.globWrapper(testPath, (files) => {
+      testPathList = files
+    })
+    it('parses otomi-values/env and returns an object', () => {
+      assert.isObject(mv.otomiValuesLoader(testPathList))
     })
   })
 })
