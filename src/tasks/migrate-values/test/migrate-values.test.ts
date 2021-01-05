@@ -26,12 +26,23 @@ describe('migrate-values.ts', () => {
 
   describe('globWrapper()', () => {
     it('only works with /env sub-path', () => {
-      assert.include(mv.globWrapper(testPath), 'env', 'globWrapper() must contain env substring')
+      assert.doesNotThrow(function () {
+        mv.globWrapper(testPath, (files) => {
+          //
+        })
+      }, 'Does not contain env substring')
     })
     it(`it shouldn't work with a path-string without env`, () => {
       assert.throws(function () {
-        mv.globWrapper('random-path')
+        mv.globWrapper('random-path', (files) => {
+          //
+        })
       }, 'Does not contain env substring')
+    })
+    it('should return list of yaml files', () => {
+      mv.globWrapper(testPath, (files) => {
+        assert.include(files.join(), '.yaml')
+      })
     })
   })
 })
