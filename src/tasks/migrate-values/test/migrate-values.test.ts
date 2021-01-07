@@ -46,6 +46,12 @@ describe('migrate-values.ts', () => {
     mv.globWrapper(testPath, (files: string[]) => {
       testPathList = files
     })
+    it('throws an error if the file is not found', () => {
+      const invalidFilename = 'does-not-exist.yaml'
+      assert.throws(function () {
+        mv.otomiValuesLoader(testPathList, invalidFilename)
+      })
+    })
     it('can take a file name and return the json object', () => {
       assert.deepEqual(mv.otomiValuesLoader(testPathList, 'teams.yaml'), {
         teamConfig: {
