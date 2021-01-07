@@ -46,6 +46,60 @@ describe('migrate-values.ts', () => {
     mv.globWrapper(testPath, (files: string[]) => {
       testPathList = files
     })
+    it('can find files that have the same substring', () => {
+      assert.deepEqual(mv.otomiValuesLoader(testPathList, 'teams.yaml'), {
+        teamConfig: {
+          teams: {
+            demo: {
+              alerts: {
+                receivers: ['email'],
+              },
+              id: 'demo',
+              clusters: ['aws/demo', 'azure/demo', 'google/demo', 'onprem/demo'],
+            },
+          },
+        },
+      })
+      assert.deepEqual(mv.otomiValuesLoader(testPathList, 'secrets.teams.yaml'), {
+        teamConfig: {
+          teams: {
+            demo: {
+              alerts: {
+                email: {
+                  critical: 'admins@yourdoma.in',
+                },
+              },
+              oidc: {
+                groupMapping: 'somesecretvalue',
+              },
+              password: 'somesecretvalue',
+            },
+          },
+        },
+      })
+    })
+    it('can find files in subdirectories', () => {
+      assert.deepEqual(mv.otomiValuesLoader(testPathList, 'charts/drone.yaml'), {
+        charts: {
+          drone: {
+            enabled: false,
+            debug: false,
+            orgsFilter: 'redkubes',
+            repoFilter: 'redkubes',
+            githubAdmins: {
+              org: 'redkubes',
+              team: 'admins',
+            },
+            sourceControl: {
+              provider: 'github',
+              github: {
+                server: 'https://github.com',
+              },
+            },
+          },
+        },
+      })
+    })
     it('throws an error if the file is not found', () => {
       const invalidFilename = 'does-not-exist.yaml'
       assert.throws(function () {
