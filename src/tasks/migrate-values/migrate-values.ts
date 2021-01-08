@@ -22,3 +22,11 @@ export function otomiValuesLoader(pathList: string[], fileName: string) {
     ),
   )
 }
+
+export function migrateValues(oldVersion: string, newVersion: string) {
+  if (oldVersion === newVersion) {
+    throw new Error(`same version detected: ${oldVersion} and ${newVersion}; exiting`)
+  } else {
+    throw new Error('no breaking change detected; exiting')
+  }
+}

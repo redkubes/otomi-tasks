@@ -180,4 +180,16 @@ describe('migrate-values.ts', () => {
       })
     })
   })
+  describe('migrateValues()', () => {
+    it('throws if the version is the same', () => {
+      assert.throws(function () {
+        mv.migrateValues('0.2.0', '0.2.0')
+      }, 'same version detected: 0.2.0 and 0.2.0; exiting')
+    })
+    it('throws if there is no breaking change', () => {
+      assert.throws(function () {
+        mv.migrateValues('0.2.0', '0.2.1')
+      }, 'no breaking change detected; exiting')
+    })
+  })
 })
