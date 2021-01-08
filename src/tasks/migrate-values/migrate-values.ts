@@ -30,3 +30,7 @@ export function migrateValues(oldVersion: string, newVersion: string) {
     throw new Error('no breaking change detected; exiting')
   }
 }
+
+export function getNewVersion(revision: string) {
+  return '0.2.0'
+}

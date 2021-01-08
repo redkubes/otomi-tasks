@@ -201,4 +201,9 @@ describe('migrate-values.ts', () => {
       }, breakingChangeErrorMessage)
     })
   })
+  describe('getNewVersion()', () => {
+    it('can read the new version based on the the revision hash', () => {
+      assert.equal(mv.getNewVersion('8665e5707c829eaff674bd416de8610a2103114a'), '0.2.0')
+    })
+  })
 })
