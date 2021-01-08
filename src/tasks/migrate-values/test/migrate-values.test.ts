@@ -181,15 +181,24 @@ describe('migrate-values.ts', () => {
     })
   })
   describe('migrateValues()', () => {
+    const mockBreakingChangeVersion = '0.2.0'
+    const mockNotABreakingChangeVersion = '0.2.1'
     it('throws if the version is the same', () => {
       assert.throws(function () {
-        mv.migrateValues('0.2.0', '0.2.0')
+        mv.migrateValues(mockBreakingChangeVersion, mockBreakingChangeVersion)
       }, 'same version detected: 0.2.0 and 0.2.0; exiting')
     })
-    it('throws if there is no breaking change', () => {
+
+    const breakingChangeErrorMessage = 'no breaking change detected; exiting'
+    it('throws if there is no forwards breaking change', () => {
       assert.throws(function () {
-        mv.migrateValues('0.2.0', '0.2.1')
-      }, 'no breaking change detected; exiting')
+        mv.migrateValues(mockBreakingChangeVersion, mockNotABreakingChangeVersion)
+      }, breakingChangeErrorMessage)
+    })
+    it('throws if there is no backwards breaking change', () => {
+      assert.throws(function () {
+        mv.migrateValues(mockNotABreakingChangeVersion, mockBreakingChangeVersion)
+      }, breakingChangeErrorMessage)
     })
   })
 })
