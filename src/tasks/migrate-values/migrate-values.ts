@@ -36,7 +36,28 @@ export function getOldVersion() {
 export function migrateValues(otomiFiles, changes, oldVersion: string, newVersion: string) {
   if (oldVersion === newVersion) {
     throw new Error(`same version detected: ${oldVersion} and ${newVersion}; exiting`)
-  } else {
+  } else if () {
     throw new Error('no breaking change detected; exiting')
+  } else {
+    return {
+      old: {
+        charts: {
+          president: {
+            lastname: 'Lincoln',
+            firstName: 'Abraham',
+          },
+        },
+        new: {
+          charts: {
+            'cert-manager': {
+              president: {
+                lastname: 'Lincoln',
+                firstName: 'Abraham',
+              },
+            },
+          },
+        },
+      },
+    }
   }
 }

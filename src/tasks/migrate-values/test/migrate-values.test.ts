@@ -15,10 +15,31 @@ describe('migrate-values.ts', () => {
   const testPath: string = __dirname + '/otomi-values/env'
   const randomPath = 'random-path'
   describe('acceptance-tests', () => {
-    it('can migrate values', () => {
+    it('can migrate displacements and deletions', () => {
       mv.globWrapper(testPath, (files) => {
-        assert.isOk(
+        console.log(mockIncomingChanges)
+        assert.deepEqual(
           mv.migrateValues(mv.otomiValuesLoader(files), mockIncomingChanges, mv.getOldVersion(), mv.getNewVersion()),
+          {
+            old: {
+              charts: {
+                president: {
+                  lastname: 'Lincoln',
+                  firstName: 'Abraham',
+                },
+              },
+              new: {
+                charts: {
+                  'cert-manager': {
+                    president: {
+                      lastname: 'Lincoln',
+                      firstName: 'Abraham',
+                    },
+                  },
+                },
+              },
+            },
+          },
         )
       })
     })
