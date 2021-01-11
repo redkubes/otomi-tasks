@@ -212,8 +212,8 @@ describe('migrate-values.ts', () => {
     })
   })
   describe('migrateValues()', () => {
-    const mockBreakingChangeVersion = '0.2.0'
-    const mockNotABreakingChangeVersion = '0.2.1'
+    const mockBreakingChangeVersion = [0, 2, 0]
+    const mockNotABreakingChangeVersion = [0, 2, 1]
     let otomiValuesFiles = {}
     mv.globWrapper(testPath, (files: string[]) => {
       otomiValuesFiles = mv.otomiValuesLoader(files)
@@ -221,7 +221,7 @@ describe('migrate-values.ts', () => {
     it('throws if the version is the same', () => {
       assert.throws(function () {
         mv.migrateValues(otomiValuesFiles, mockIncomingChanges, mockBreakingChangeVersion, mockBreakingChangeVersion)
-      }, 'same version detected: 0.2.0 and 0.2.0; exiting')
+      }, 'same version detected: 0,2,0 and 0,2,0; exiting')
     })
 
     const breakingChangeErrorMessage = 'no breaking change detected; exiting'
@@ -235,26 +235,31 @@ describe('migrate-values.ts', () => {
         )
       }, breakingChangeErrorMessage)
     })
-    it('throws if there is no backwards breaking change', () => {
-      assert.throws(function () {
-        mv.migrateValues(
-          otomiValuesFiles,
-          mockIncomingChanges,
-          mockNotABreakingChangeVersion,
-          mockBreakingChangeVersion,
-        )
-      }, breakingChangeErrorMessage)
-    })
-    it('')
   })
   describe('getNewVersion()', () => {
     it('can read the new version based on a revision hash', () => {
-      assert.equal(mv.getNewVersion(), '0.2.0')
+      assert.deepEqual(mv.getNewVersion(), [0, 2, 0])
     })
   })
   describe('getOldVersion', () => {
     it('can read the old version from a file in the otomi-values repository', () => {
-      assert.equal(mv.getOldVersion(), '0.1.0')
+      assert.deepEqual(mv.getOldVersion(), [0, 1, 0])
+    })
+  })
+  describe('migrateValuesVersionConverter()', () => {
+    it('takes a semver and outputs it as an array of numbers', () => {
+      assert.deepEqual(mv.migrateValuesVersionConverter('0.2.0'), [0, 2, 0])
+    })
+    it('takes a different semver and outputs it as an array of numbers', () => {
+      assert.deepEqual(mv.migrateValuesVersionConverter('0.1.0'), [0, 1, 0])
+    })
+  })
+  describe('incompatibleAPIChange()', () => {
+    it('takes a SemVer and returns true (ie. incompatible) if a minor is upgraded', () => {
+      assert.isOk(mv.incompatibleAPIChange([0, 2, 0]))
+    })
+    it('returns false if SemVer does not indicate breaking change', () => {
+      assert.isNotOk(mv.incompatibleAPIChange([0, 2, 1]))
     })
   })
 })

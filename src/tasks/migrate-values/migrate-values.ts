@@ -25,18 +25,26 @@ export function otomiValuesLoader(pathList: string[], fileName?: string) {
   }
 }
 
+export function migrateValuesVersionConverter(version: string) {
+  return version.split('.').map(Number)
+}
+
 export function getNewVersion() {
-  return '0.2.0'
+  return migrateValuesVersionConverter('0.2.0')
 }
 
 export function getOldVersion() {
-  return '0.1.0'
+  return migrateValuesVersionConverter('0.1.0')
 }
 
-export function migrateValues(otomiFiles, changes, oldVersion: string, newVersion: string) {
+export function incompatibleAPIChange(semVer: number[]) {
+  return semVer[2] === 0
+}
+
+export function migrateValues(otomiFiles, changes, oldVersion: number[], newVersion: number[]) {
   if (oldVersion === newVersion) {
     throw new Error(`same version detected: ${oldVersion} and ${newVersion}; exiting`)
-  } else if () {
+  } else if (newVersion[2] !== 0) {
     throw new Error('no breaking change detected; exiting')
   } else {
     return {
