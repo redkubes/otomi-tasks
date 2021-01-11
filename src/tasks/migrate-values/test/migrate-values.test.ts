@@ -14,6 +14,16 @@ const mockIncomingChanges = yaml.safeLoadAll(
 describe('migrate-values.ts', () => {
   const testPath: string = __dirname + '/otomi-values/env'
   const randomPath = 'random-path'
+  describe('acceptance-tests', () => {
+    it('can migrate values', () => {
+      mv.globWrapper(testPath, (files) => {
+        assert.isOk(
+          mv.migrateValues(mv.otomiValuesLoader(files), mockIncomingChanges, mv.getOldVersion(), mv.getNewVersion()),
+        )
+      })
+    })
+  })
+
   if (!fs.existsSync(testPath)) {
     throw new Error(`
     'otomi-values' test-directory is not present. 
@@ -183,27 +193,47 @@ describe('migrate-values.ts', () => {
   describe('migrateValues()', () => {
     const mockBreakingChangeVersion = '0.2.0'
     const mockNotABreakingChangeVersion = '0.2.1'
+    let otomiValuesFiles = {}
+    mv.globWrapper(testPath, (files: string[]) => {
+      otomiValuesFiles = mv.otomiValuesLoader(files)
+    })
     it('throws if the version is the same', () => {
       assert.throws(function () {
-        mv.migrateValues(mockBreakingChangeVersion, mockBreakingChangeVersion)
+        mv.migrateValues(otomiValuesFiles, mockIncomingChanges, mockBreakingChangeVersion, mockBreakingChangeVersion)
       }, 'same version detected: 0.2.0 and 0.2.0; exiting')
     })
 
     const breakingChangeErrorMessage = 'no breaking change detected; exiting'
     it('throws if there is no forwards breaking change', () => {
       assert.throws(function () {
-        mv.migrateValues(mockBreakingChangeVersion, mockNotABreakingChangeVersion)
+        mv.migrateValues(
+          otomiValuesFiles,
+          mockIncomingChanges,
+          mockBreakingChangeVersion,
+          mockNotABreakingChangeVersion,
+        )
       }, breakingChangeErrorMessage)
     })
     it('throws if there is no backwards breaking change', () => {
       assert.throws(function () {
-        mv.migrateValues(mockNotABreakingChangeVersion, mockBreakingChangeVersion)
+        mv.migrateValues(
+          otomiValuesFiles,
+          mockIncomingChanges,
+          mockNotABreakingChangeVersion,
+          mockBreakingChangeVersion,
+        )
       }, breakingChangeErrorMessage)
     })
+    it('')
   })
   describe('getNewVersion()', () => {
-    it('can read the new version based on the the revision hash', () => {
-      assert.equal(mv.getNewVersion('8665e5707c829eaff674bd416de8610a2103114a'), '0.2.0')
+    it('can read the new version based on a revision hash', () => {
+      assert.equal(mv.getNewVersion(), '0.2.0')
+    })
+  })
+  describe('getOldVersion', () => {
+    it('can read the old version from a file in the otomi-values repository', () => {
+      assert.equal(mv.getOldVersion(), '0.1.0')
     })
   })
 })
