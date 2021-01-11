@@ -44,7 +44,7 @@ export function incompatibleAPIChange(semVer: number[]) {
 export function migrateValues(otomiFiles, changes, oldVersion: number[], newVersion: number[]) {
   if (oldVersion === newVersion) {
     throw new Error(`same version detected: ${oldVersion} and ${newVersion}; exiting`)
-  } else if (newVersion[2] !== 0) {
+  } else if (!incompatibleAPIChange(newVersion)) {
     throw new Error('no breaking change detected; exiting')
   } else {
     return {
