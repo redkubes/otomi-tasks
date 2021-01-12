@@ -15,17 +15,21 @@ describe('migrate-values.ts', () => {
   const testPath: string = __dirname + '/otomi-values/env'
   const randomPath = 'random-path'
   describe('acceptance-tests', () => {
-    it('can migrate displacements and deletions', () => {
+    it('can migrate displacements', () => {
       mv.globWrapper(testPath, (files) => {
-        console.log(mockIncomingChanges)
         assert.deepEqual(
-          mv.migrateValues(mv.otomiValuesLoader(files), mockIncomingChanges, mv.getOldVersion(), mv.getNewVersion()),
+          mv.migrateValues(
+            mv.otomiValuesLoader(files),
+            mockIncomingChanges,
+            mv.getOldVersion(),
+            mv.getNewVersion(),
+            'displacements',
+          ),
           {
             old: {
               charts: {
                 president: {
                   lastname: 'Lincoln',
-                  firstName: 'Abraham',
                 },
               },
               new: {
@@ -33,9 +37,54 @@ describe('migrate-values.ts', () => {
                   'cert-manager': {
                     president: {
                       lastname: 'Lincoln',
-                      firstName: 'Abraham',
                     },
                   },
+                },
+              },
+            },
+          },
+        )
+      })
+    })
+    it('can migrate deletions', () => {
+      mv.globWrapper(testPath, (files) => {
+        assert.deepEqual(
+          mv.migrateValues(
+            mv.otomiValuesLoader(files),
+            mockIncomingChanges,
+            mv.getOldVersion(),
+            mv.getNewVersion(),
+            'deletions',
+          ),
+          {
+            old: {
+              charts: {
+                president: {
+                  firstName: 'Abraham',
+                },
+              },
+            },
+          },
+        )
+      })
+    })
+    it('can migrate displacements and deletions', () => {
+      mv.globWrapper(testPath, (files) => {
+        assert.deepEqual(
+          mv.migrateValues(mv.otomiValuesLoader(files), mockIncomingChanges, mv.getOldVersion(), mv.getNewVersion()),
+          {
+            old: {
+              charts: {
+                president: {
+                  lastName: 'Lincoln',
+                  firstName: 'Abraham',
+                },
+              },
+            },
+            new: {
+              charts: {
+                'cert-manager': {
+                  lastName: 'Lincoln',
                 },
               },
             },
