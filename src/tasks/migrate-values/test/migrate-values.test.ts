@@ -311,33 +311,23 @@ describe('migrate-values.ts', () => {
     })
   })
   describe('displacementHelper()', () => {
-    let otomiValuesFiles = []
-    mv.globWrapper(testPath, (files) => {
-      otomiValuesFiles = files
-    })
     const noChanges = {}
     it('changes one property in-place', () => {
-      assert.deepEqual(mv.displacementHelper(otomiValuesFiles, mockIncomingChanges[0]), {
-        old: {
-          charts: {
-            president: {
-              lastname: 'Lincoln',
-            },
-          },
+      const randomValue = 'blabla'
+      const randomOtomiValuesFile = {
+        a: randomValue,
+      }
+      const changesModifyOneProperty = {
+        displacements: {
+          a: 'b',
         },
-        new: {
-          charts: {
-            'cert-manager': {
-              president: {
-                lastname: 'Lincoln',
-              },
-            },
-          },
-        },
+      }
+      assert.deepEqual(mv.displacementHelper(randomOtomiValuesFile, changesModifyOneProperty), {
+        b: randomValue,
       })
     })
     it('changes no properties without displacements key', () => {
-      assert.deepEqual(mv.displacementHelper(otomiValuesFiles, noChanges), {})
+      assert.deepEqual(mv.displacementHelper({}, noChanges), {})
     })
   })
 })

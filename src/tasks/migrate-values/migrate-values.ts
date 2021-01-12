@@ -41,25 +41,10 @@ export function incompatibleAPIChange(semVer: number[]) {
   return semVer[2] === 0
 }
 
-export function displacementHelper(otomiValuesFiles: string[], changes: object): object {
+export function displacementHelper(otomiValuesFile: object, changes: object): object {
   if (changes['displacements']) {
     return {
-      old: {
-        charts: {
-          president: {
-            lastname: 'Lincoln',
-          },
-        },
-      },
-      new: {
-        charts: {
-          'cert-manager': {
-            president: {
-              lastname: 'Lincoln',
-            },
-          },
-        },
-      },
+      b: 'blabla',
     }
   }
 
