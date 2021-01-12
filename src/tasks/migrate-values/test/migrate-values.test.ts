@@ -315,6 +315,7 @@ describe('migrate-values.ts', () => {
     mv.globWrapper(testPath, (files) => {
       otomiValuesFiles = files
     })
+    const noChanges = {}
     it('changes one property in-place', () => {
       assert.deepEqual(mv.displacementHelper(otomiValuesFiles, mockIncomingChanges[0]), {
         old: {
@@ -336,8 +337,7 @@ describe('migrate-values.ts', () => {
       })
     })
     it('changes no properties without displacements key', () => {
-      const changes = {}
-      assert.deepEqual(mv.displacementHelper(otomiValuesFiles, changes), {})
+      assert.deepEqual(mv.displacementHelper(otomiValuesFiles, noChanges), {})
     })
   })
 })
