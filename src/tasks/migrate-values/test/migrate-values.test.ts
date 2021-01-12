@@ -311,12 +311,33 @@ describe('migrate-values.ts', () => {
     })
   })
   describe('displacementHelper()', () => {
-    let otomiValues = {}
+    let otomiValuesFiles = []
     mv.globWrapper(testPath, (files) => {
-      otomiValues = files
+      otomiValuesFiles = files
     })
     it('changes one property in-place', () => {
-      assert.deepEqual(mv.displacementHelper(otomiValues, mockIncomingChanges), {})
+      assert.deepEqual(mv.displacementHelper(otomiValuesFiles, mockIncomingChanges[0]), {
+        old: {
+          charts: {
+            president: {
+              lastname: 'Lincoln',
+            },
+          },
+        },
+        new: {
+          charts: {
+            'cert-manager': {
+              president: {
+                lastname: 'Lincoln',
+              },
+            },
+          },
+        },
+      })
+    })
+    it('changes no properties without displacements key', () => {
+      const changes = {}
+      assert.deepEqual(mv.displacementHelper(otomiValuesFiles, changes), {})
     })
   })
 })
