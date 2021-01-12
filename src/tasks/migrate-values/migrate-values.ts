@@ -41,7 +41,13 @@ export function incompatibleAPIChange(semVer: number[]) {
   return semVer[2] === 0
 }
 
-export function migrateValues(otomiFiles, changes, oldVersion: number[], newVersion: number[], operation?: string) {
+export function migrateValues(
+  otomiFiles,
+  changes,
+  oldVersion: number[],
+  newVersion: number[],
+  operation?: string,
+): object {
   if (oldVersion === newVersion) {
     throw new Error(`same version detected: ${oldVersion} and ${newVersion}; exiting`)
   } else if (!incompatibleAPIChange(newVersion)) {
@@ -49,52 +55,11 @@ export function migrateValues(otomiFiles, changes, oldVersion: number[], newVers
   } else {
     switch (operation) {
       case 'displacements':
-        return {
-          old: {
-            charts: {
-              president: {
-                lastname: 'Lincoln',
-              },
-            },
-            new: {
-              charts: {
-                'cert-manager': {
-                  president: {
-                    lastname: 'Lincoln',
-                  },
-                },
-              },
-            },
-          },
-        }
+        return
       case 'deletions':
-        return {
-          old: {
-            charts: {
-              president: {
-                firstName: 'Abraham',
-              },
-            },
-          },
-        }
+        return
       default:
-        return {
-          old: {
-            charts: {
-              president: {
-                lastName: 'Lincoln',
-                firstName: 'Abraham',
-              },
-            },
-          },
-          new: {
-            charts: {
-              'cert-manager': {
-                lastName: 'Lincoln',
-              },
-            },
-          },
-        }
+        return
     }
   }
 }
