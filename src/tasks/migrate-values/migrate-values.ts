@@ -44,10 +44,14 @@ export function incompatibleAPIChange(semVer: number[]) {
 export function displacementHelper(otomiValuesFile: object, changes: object): object {
   if (changes['displacements']) {
     return {
-      b: 'blabla',
+      old: {
+        a: otomiValuesFile['a'],
+      },
+      new: {
+        b: otomiValuesFile['a'],
+      },
     }
   }
-
   return {}
 }
 

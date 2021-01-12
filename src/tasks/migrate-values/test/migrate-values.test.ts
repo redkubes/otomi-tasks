@@ -1,10 +1,8 @@
-import { assert, expect } from 'chai'
+import { assert } from 'chai'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
 import * as mv from '../migrate-values'
-import { get, isEmpty, isEqual, isMatch } from 'lodash'
-import { glob } from 'glob'
 
 describe('migrate-values.ts', () => {
   const mockIncomingChangesFileName = 'mock-incoming-changes.yaml'
@@ -312,8 +310,8 @@ describe('migrate-values.ts', () => {
   })
   describe('displacementHelper()', () => {
     const noChanges = {}
+    const randomValue = 'blabla'
     it('changes one property in-place', () => {
-      const randomValue = 'blabla'
       const randomOtomiValuesFile = {
         a: randomValue,
       }
@@ -323,7 +321,28 @@ describe('migrate-values.ts', () => {
         },
       }
       assert.deepEqual(mv.displacementHelper(randomOtomiValuesFile, changesModifyOneProperty), {
-        b: randomValue,
+        old: {
+          a: randomValue,
+        },
+        new: {
+          b: randomValue,
+        },
+      })
+    })
+    it('changes one other property in-place too', () => {
+      const randomOtomiValuesFile = {
+        c: randomValue,
+      }
+      const changesModifyOneProperty = {
+        c: 'a',
+      }
+      assert.deepEqual(mv.displacementHelper(randomOtomiValuesFile, changesModifyOneProperty), {
+        old: {
+          c: randomValue,
+        },
+        new: {
+          a: randomValue,
+        },
       })
     })
     it('changes no properties without displacements key', () => {
