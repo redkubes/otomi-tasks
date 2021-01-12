@@ -13,7 +13,7 @@ export function globWrapper(path: string, cb?) {
   }
 }
 
-export function otomiValuesLoader(pathList: string[], fileName?: string) {
+export function otomiValuesLoader(pathList: string[], fileName?: string): object {
   if (fileName) {
     const re = new RegExp(`/env/${fileName}$`)
     return yaml.load(
@@ -41,8 +41,12 @@ export function incompatibleAPIChange(semVer: number[]) {
   return semVer[2] === 0
 }
 
+export function displacementHelper(otomiValues: object, changes: object): object {
+  return {}
+}
+
 export function migrateValues(
-  otomiFiles,
+  otomiValues,
   changes,
   oldVersion: number[],
   newVersion: number[],

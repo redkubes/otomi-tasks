@@ -6,12 +6,11 @@ import * as mv from '../migrate-values'
 import { get, isEmpty, isEqual, isMatch } from 'lodash'
 import { glob } from 'glob'
 
-const mockIncomingChangesFileName = 'mock-incoming-changes.yaml'
-const mockIncomingChanges = yaml.safeLoadAll(
-  fs.readFileSync(path.join(__dirname, mockIncomingChangesFileName), 'utf-8'),
-)
-
 describe('migrate-values.ts', () => {
+  const mockIncomingChangesFileName = 'mock-incoming-changes.yaml'
+  const mockIncomingChanges = yaml.safeLoadAll(
+    fs.readFileSync(path.join(__dirname, mockIncomingChangesFileName), 'utf-8'),
+  )
   const randomPath = 'random-path'
   const testPath: string = __dirname + '/otomi-values/env'
   if (!fs.existsSync(testPath)) {
@@ -24,7 +23,7 @@ describe('migrate-values.ts', () => {
     actual path: ${testPath}
     `)
   }
-  describe('acceptance-tests', () => {
+  xdescribe('acceptance-tests', () => {
     it('can migrate displacements', () => {
       mv.globWrapper(testPath, (files) => {
         assert.deepEqual(
@@ -309,6 +308,15 @@ describe('migrate-values.ts', () => {
     })
     it('returns false if SemVer does not indicate breaking change', () => {
       assert.isNotOk(mv.incompatibleAPIChange([0, 2, 1]))
+    })
+  })
+  describe('displacementHelper()', () => {
+    let otomiValues = {}
+    mv.globWrapper(testPath, (files) => {
+      otomiValues = files
+    })
+    it('changes one property in-place', () => {
+      assert.deepEqual(mv.displacementHelper(otomiValues, mockIncomingChanges), {})
     })
   })
 })
