@@ -334,7 +334,9 @@ describe('migrate-values.ts', () => {
         c: randomValue,
       }
       const changesModifyOneProperty = {
-        c: 'a',
+        displacements: {
+          c: 'a',
+        },
       }
       assert.deepEqual(mv.displacementHelper(randomOtomiValuesFile, changesModifyOneProperty), {
         old: {

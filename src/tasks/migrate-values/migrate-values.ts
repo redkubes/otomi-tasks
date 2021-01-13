@@ -36,20 +36,17 @@ export function getNewVersion() {
 export function getOldVersion() {
   return migrateValuesVersionConverter('0.1.0')
 }
-
 export function incompatibleAPIChange(semVer: number[]) {
   return semVer[2] === 0
 }
 
-export function displacementHelper(otomiValuesFile: object, changes: object): object {
+export function displacementHelper(otomiValuesFile: any, changes: any): object {
   if (changes['displacements']) {
+    const newKeys = Object.values(changes['displacements'])
+    const applyChanges = Object.fromEntries(newKeys.map((_, i) => [newKeys[i], Object.values(otomiValuesFile)[i]]))
     return {
-      old: {
-        a: otomiValuesFile['a'],
-      },
-      new: {
-        b: otomiValuesFile['a'],
-      },
+      old: otomiValuesFile,
+      new: applyChanges,
     }
   }
   return {}
