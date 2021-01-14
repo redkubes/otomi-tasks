@@ -376,5 +376,39 @@ describe('migrate-values.ts', () => {
         },
       )
     })
+    it('changes deep nested properties', () => {
+      assert.deepEqual(
+        mv.displacementHelper(
+          {
+            f: {
+              g: {
+                h: {
+                  i: randomValue,
+                },
+              },
+            },
+          },
+          {
+            displacements: {
+              'f.g.h.i': 'h',
+            },
+          },
+        ),
+        {
+          old: {
+            f: {
+              g: {
+                h: {
+                  i: randomValue,
+                },
+              },
+            },
+          },
+          new: {
+            h: randomValue,
+          },
+        },
+      )
+    })
   })
 })
