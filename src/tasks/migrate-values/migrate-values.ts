@@ -41,9 +41,13 @@ export function incompatibleAPIChange(semVer: number[]) {
 }
 
 export function displacementHelper(otomiValuesFile: any, changes: any): object {
-  if (changes['displacements']) {
-    const newKeys = Object.values(changes['displacements'])
-    const applyChanges = Object.fromEntries(newKeys.map((_, i) => [newKeys[i], Object.values(otomiValuesFile)[i]]))
+  if (changes.displacements) {
+    const kv = Object.entries(changes.displacements)
+    const v = kv[0][0]
+      .split('.')
+      .reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), otomiValuesFile)
+    const k = kv[0][1]
+    const applyChanges = Object.fromEntries([[k, v]])
     return {
       old: otomiValuesFile,
       new: applyChanges,

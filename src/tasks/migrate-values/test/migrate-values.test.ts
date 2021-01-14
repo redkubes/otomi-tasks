@@ -350,5 +350,31 @@ describe('migrate-values.ts', () => {
     it('changes no properties without displacements key', () => {
       assert.deepEqual(mv.displacementHelper({}, noChanges), {})
     })
+    it('changes nested properties', () => {
+      assert.deepEqual(
+        mv.displacementHelper(
+          {
+            d: {
+              e: randomValue,
+            },
+          },
+          {
+            displacements: {
+              'd.e': 'd',
+            },
+          },
+        ),
+        {
+          old: {
+            d: {
+              e: randomValue,
+            },
+          },
+          new: {
+            d: randomValue,
+          },
+        },
+      )
+    })
   })
 })
