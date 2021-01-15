@@ -410,5 +410,77 @@ describe('migrate-values.ts', () => {
         },
       )
     })
+    it('changes shallow properties to nested properties', () => {
+      assert.deepEqual(
+        mv.displacementHelper(
+          {
+            j: randomValue,
+          },
+          {
+            displacements: {
+              j: 'i.k.l',
+            },
+          },
+        ),
+        {
+          old: {
+            j: randomValue,
+          },
+          new: {
+            i: {
+              k: {
+                l: randomValue,
+              },
+            },
+          },
+        },
+      )
+    })
+    it('changes multiple properties', () => {
+      assert.deepEqual(
+        mv.displacementHelper(
+          {
+            m: 'x',
+            o: 'y',
+          },
+          {
+            displacements: {
+              m: 'q.r.s',
+              o: 't.u',
+            },
+          },
+        ),
+        {
+          old: {
+            m: 'x',
+            o: 'y',
+          },
+          new: {
+            q: {
+              r: {
+                s: 'x',
+              },
+            },
+            t: {
+              u: 'y',
+            },
+          },
+        },
+      )
+    })
+  })
+  describe('expandIntoNestedProperty()', () => {
+    it('can take a key-value pair and expand the key into an object', () => {
+      assert.deepEqual(mv.expandIntoObject('a', 'b'), {
+        a: 'b',
+      })
+    })
+    it('can take a key-value pair and expand the key-path into a nested object', () => {
+      assert.deepEqual(mv.expandIntoObject('c.d', 'e'), {
+        c: {
+          d: 'e',
+        },
+      })
+    })
   })
 })
