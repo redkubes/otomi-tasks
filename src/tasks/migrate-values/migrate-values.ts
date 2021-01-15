@@ -1,7 +1,7 @@
 import glob from 'glob'
 import yaml from 'js-yaml'
 import fs from 'fs'
-import zipObjectDeep from 'lodash'
+import { zipObjectDeep } from 'lodash'
 
 export function globWrapper(path: string, cb?) {
   if (!path.includes('/env')) {
@@ -41,20 +41,17 @@ export function incompatibleAPIChange(semVer: number[]) {
   return semVer[2] === 0
 }
 
-export function expandIntoObject(k: string, v: string): object {
-  return zipObjectDeep([k], [v])
-}
-
 export function displacementHelper(otomiValuesFile: any, changes: any): object {
   if (changes.displacements) {
-    const kv: [string, any][] = Object.entries(changes.displacements)
-
-    const v = kv[0][0]
-      .split('.')
-      .reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), otomiValuesFile)
-
-    const applyChanges = kv[0][1].includes('.') ? expandIntoObject(kv[0][1], v) : Object.fromEntries([[kv[0][1], v]])
-
+    const applyChanges = {}
+    for (const displacement of Object.entries(changes.displacements)) {
+      const value = displacement[0]
+        .split('.')
+        .reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), otomiValuesFile)
+      if (typeof displacement[1] === 'string') {
+        Object.assign(applyChanges, zipObjectDeep([displacement[1]], [value]))
+      }
+    }
     return {
       old: otomiValuesFile,
       new: applyChanges,

@@ -469,18 +469,4 @@ describe('migrate-values.ts', () => {
       )
     })
   })
-  describe('expandIntoNestedProperty()', () => {
-    it('can take a key-value pair and expand the key into an object', () => {
-      assert.deepEqual(mv.expandIntoObject('a', 'b'), {
-        a: 'b',
-      })
-    })
-    it('can take a key-value pair and expand the key-path into a nested object', () => {
-      assert.deepEqual(mv.expandIntoObject('c.d', 'e'), {
-        c: {
-          d: 'e',
-        },
-      })
-    })
-  })
 })
