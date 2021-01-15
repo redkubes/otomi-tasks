@@ -325,6 +325,7 @@ describe('migrate-values.ts', () => {
           a: randomValue,
         },
         new: {
+          a: randomValue,
           b: randomValue,
         },
       })
@@ -343,6 +344,7 @@ describe('migrate-values.ts', () => {
           c: randomValue,
         },
         new: {
+          c: randomValue,
           a: randomValue,
         },
       })
@@ -360,7 +362,7 @@ describe('migrate-values.ts', () => {
           },
           {
             displacements: {
-              'd.e': 'd',
+              'd.e': 'f.e',
             },
           },
         ),
@@ -371,7 +373,12 @@ describe('migrate-values.ts', () => {
             },
           },
           new: {
-            d: randomValue,
+            d: {
+              e: randomValue,
+            },
+            f: {
+              e: randomValue,
+            },
           },
         },
       )
@@ -405,6 +412,13 @@ describe('migrate-values.ts', () => {
             },
           },
           new: {
+            f: {
+              g: {
+                h: {
+                  i: randomValue,
+                },
+              },
+            },
             h: randomValue,
           },
         },
@@ -427,6 +441,7 @@ describe('migrate-values.ts', () => {
             j: randomValue,
           },
           new: {
+            j: randomValue,
             i: {
               k: {
                 l: randomValue,
@@ -456,6 +471,8 @@ describe('migrate-values.ts', () => {
             o: 'y',
           },
           new: {
+            m: 'x',
+            o: 'y',
             q: {
               r: {
                 s: 'x',
@@ -463,6 +480,71 @@ describe('migrate-values.ts', () => {
             },
             t: {
               u: 'y',
+            },
+          },
+        },
+      )
+    })
+    it('appends a property to an existing object', () => {
+      assert.deepEqual(
+        mv.displacementHelper(
+          {
+            aa: {
+              bb: {
+                cc: {
+                  dd: {
+                    ee: 'ff',
+                  },
+                },
+                gg: {
+                  jj: {
+                    kk: 'mm',
+                    nn: 'oo',
+                  },
+                },
+              },
+            },
+          },
+          {
+            displacements: {
+              'aa.bb.cc.dd.ee': 'aa.bb.gg.jj.ee',
+            },
+          },
+        ),
+        {
+          old: {
+            aa: {
+              bb: {
+                cc: {
+                  dd: {
+                    ee: 'ff',
+                  },
+                },
+                gg: {
+                  jj: {
+                    kk: 'mm',
+                    nn: 'oo',
+                  },
+                },
+              },
+            },
+          },
+          new: {
+            aa: {
+              bb: {
+                cc: {
+                  dd: {
+                    ee: 'ff',
+                  },
+                },
+                gg: {
+                  jj: {
+                    ee: 'ff',
+                    kk: 'mm',
+                    nn: 'oo',
+                  },
+                },
+              },
             },
           },
         },
