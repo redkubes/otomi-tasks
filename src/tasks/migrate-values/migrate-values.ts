@@ -1,7 +1,7 @@
 import glob from 'glob'
 import yaml from 'js-yaml'
 import fs from 'fs'
-import { setWith } from 'lodash'
+import { cloneDeep, setWith } from 'lodash'
 
 export function globWrapper(path: string, cb?) {
   if (!path.includes('/env')) {
@@ -43,13 +43,13 @@ export function incompatibleAPIChange(semVer: number[]) {
 
 export function displacementHelper(otomiValuesFile: any, changes: any): object {
   if (changes.displacements) {
-    const oldOtomiValuesFile = { ...otomiValuesFile }
+    const oldOtomiValuesFile = cloneDeep(otomiValuesFile)
     for (const displacement of Object.entries(changes.displacements)) {
       const findValue = displacement[0]
         .split('.')
         .reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), otomiValuesFile)
       if (typeof displacement[1] === 'string') {
-        setWith(otomiValuesFile, displacement[1], findValue, (nsValue, key, nsObject) => {})
+        setWith(otomiValuesFile, displacement[1], findValue)
       }
     }
     return {
