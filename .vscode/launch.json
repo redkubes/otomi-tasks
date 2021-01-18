@@ -83,6 +83,14 @@
       "cwd": "${workspaceRoot}",
       "console": "integratedTerminal"
     },
-    
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug migrate-values Tasks",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "task:migrate-values-dev"],
+      "cwd": "${workspaceRoot}",
+      "console": "integratedTerminal"
+    }
   ]
 }
