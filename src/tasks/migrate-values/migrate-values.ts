@@ -111,6 +111,6 @@ globWrapper(__dirname + '/test/otomi-values/env', (files) => {
     param['operation'],
   )
 
-  console.log(change)
+  console.log(`CHECK IF THESE CHANGES MAKE SENSE`)
+  console.log(JSON.stringify(change, null, 4))
 })
-/* This could be a CLI */
