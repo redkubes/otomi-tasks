@@ -22,6 +22,7 @@ describe('migrate-values.ts', () => {
     `)
   }
   xdescribe('acceptance-tests', () => {
+    it('')
     it('can migrate displacements', () => {
       mv.globWrapper(testPath, (files) => {
         assert.deepEqual(
@@ -46,52 +47,6 @@ describe('migrate-values.ts', () => {
                   president: {
                     lastname: 'Lincoln',
                   },
-                },
-              },
-            },
-          },
-        )
-      })
-    })
-    it('can migrate deletions', () => {
-      mv.globWrapper(testPath, (files) => {
-        assert.deepEqual(
-          mv.migrateValues(
-            mv.otomiValuesLoader(files),
-            mockIncomingChanges,
-            mv.getOldVersion(),
-            mv.getNewVersion(),
-            'deletions',
-          ),
-          {
-            old: {
-              charts: {
-                president: {
-                  firstName: 'Abraham',
-                },
-              },
-            },
-          },
-        )
-      })
-    })
-    it('can migrate displacements and deletions', () => {
-      mv.globWrapper(testPath, (files) => {
-        assert.deepEqual(
-          mv.migrateValues(mv.otomiValuesLoader(files), mockIncomingChanges, mv.getOldVersion(), mv.getNewVersion()),
-          {
-            old: {
-              charts: {
-                president: {
-                  lastName: 'Lincoln',
-                  firstName: 'Abraham',
-                },
-              },
-            },
-            new: {
-              charts: {
-                'cert-manager': {
-                  lastName: 'Lincoln',
                 },
               },
             },
@@ -262,7 +217,7 @@ describe('migrate-values.ts', () => {
     const mockNotABreakingChangeVersion = [0, 2, 1]
     let otomiValuesFiles = {}
     mv.globWrapper(testPath, (files: string[]) => {
-      otomiValuesFiles = mv.otomiValuesLoader(files)
+      otomiValuesFiles = mv.otomiValuesLoader(files, 'teams.yaml')
     })
     it('throws if the version is the same', () => {
       assert.throws(function () {
@@ -280,6 +235,16 @@ describe('migrate-values.ts', () => {
           mockNotABreakingChangeVersion,
         )
       }, breakingChangeErrorMessage)
+    })
+    it('throws if otomiValues is undefined', () => {
+      assert.throws(function () {
+        mv.migrateValues(undefined, mockIncomingChanges, mockBreakingChangeVersion, [0, 3, 0])
+      }, 'The otomiValues files given are undefined; exiting')
+    })
+    it('throws if changes are undefined', () => {
+      assert.throws(function () {
+        mv.migrateValues(otomiValuesFiles, undefined, mockBreakingChangeVersion, [0, 3, 0])
+      }, 'The changes file given is undefined; exiting')
     })
   })
   describe('getNewVersion()', () => {

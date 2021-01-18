@@ -71,14 +71,16 @@ export function migrateValues(
     throw new Error(`same version detected: ${oldVersion} and ${newVersion}; exiting`)
   } else if (!incompatibleAPIChange(newVersion)) {
     throw new Error('no breaking change detected; exiting')
+  } else if (otomiValues === undefined) {
+    throw new Error('The otomiValues files given are undefined; exiting')
+  } else if (changes === undefined) {
+    throw new Error('The changes file given is undefined; exiting')
   } else {
     switch (operation) {
       case 'displacements':
-        return
-      case 'deletions':
-        return
+        return displacementHelper(otomiValues, changes)
       default:
-        return
+        return displacementHelper(otomiValues, changes)
     }
   }
 }
