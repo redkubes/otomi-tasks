@@ -8,6 +8,14 @@ export function globWrapper(path: string, cb?) {
   if (!path.includes('/env')) {
     throw new Error('Does not contain env substring')
   }
+  if (!fs.existsSync(path)) {
+    throw new Error(`
+    'otomi-values' test-directory is not present. 
+
+    expected path: ${__dirname + '/otomi-values/env'}
+    actual path: ${path}
+    `)
+  }
   if (cb) {
     glob('**/*.yaml', { cwd: path }, (error, files: string[]) => {
       cb(files.map((f) => path + '/' + f))
@@ -62,8 +70,8 @@ export function displacementHelper(otomiValuesFile: any, changes: any): object {
 }
 
 export function migrateValues(
-  otomiValues,
-  changes,
+  otomiValues: object,
+  changes: object,
   oldVersion: number[],
   newVersion: number[],
   operation?: string,
@@ -86,15 +94,23 @@ export function migrateValues(
   }
 }
 
-/* This could be a CLI */
-const param = {
-  otomiValues: globWrapper(__dirname + '/otomi-values/env', (files) => {
-    return files
-  }),
-  changes: yaml.safeLoadAll(fs.readFileSync(path.join(__dirname, 'mock-incoming-changes.yaml'), 'utf-8'))[0],
-  oldVersion: getOldVersion(),
-  newVersion: getNewVersion(),
-  operation: 'displacements',
-}
+globWrapper(__dirname + '/test/otomi-values/env', (files) => {
+  const param = {
+    otomiValues: otomiValuesLoader(files, 'mock.yaml'),
+    changes: yaml.safeLoadAll(fs.readFileSync(path.join(__dirname, 'test/mock-incoming-changes.yaml'), 'utf-8'))[0],
+    oldVersion: getOldVersion(),
+    newVersion: getNewVersion(),
+    operation: 'displacements',
+  }
 
-migrateValues(param['otomiValues'], param['changes'], param['oldVersion'], param['newVersion'], param['operation'])
+  const change = migrateValues(
+    param['otomiValues'],
+    param['changes'],
+    param['oldVersion'],
+    param['newVersion'],
+    param['operation'],
+  )
+
+  console.log(change)
+})
+/* This could be a CLI */

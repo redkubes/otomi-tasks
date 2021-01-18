@@ -11,16 +11,6 @@ describe('migrate-values.ts', () => {
   )
   const randomPath = 'random-path'
   const testPath: string = __dirname + '/otomi-values/env'
-  if (!fs.existsSync(testPath)) {
-    throw new Error(`
-    'otomi-values' test-directory is not present. 
-    This check prevents testing without a sample 'otomi-values' directory.
-    This test is meaningless without it.
-
-    expected path: ${__dirname + '/otomi-values/env'}
-    actual path: ${testPath}
-    `)
-  }
   describe('acceptance-tests', () => {
     it('can migrate displacements', () => {
       mv.globWrapper(testPath, (files) => {
