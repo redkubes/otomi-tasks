@@ -88,7 +88,7 @@
       "request": "launch",
       "name": "Debug migrate-values Tasks",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run-script", "task:migrate-values-dev"],
+      "runtimeArgs": ["run-script", "tasks:migrate-values-dev"],
       "cwd": "${workspaceRoot}",
       "console": "integratedTerminal"
     }
