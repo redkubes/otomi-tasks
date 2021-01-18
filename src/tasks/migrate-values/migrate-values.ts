@@ -2,6 +2,7 @@ import glob from 'glob'
 import yaml from 'js-yaml'
 import fs from 'fs'
 import { cloneDeep, set } from 'lodash'
+import path from 'path'
 
 export function globWrapper(path: string, cb?) {
   if (!path.includes('/env')) {
@@ -84,3 +85,16 @@ export function migrateValues(
     }
   }
 }
+
+/* This could be a CLI */
+const param = {
+  otomiValues: globWrapper(__dirname + '/otomi-values/env', (files) => {
+    return files
+  }),
+  changes: yaml.safeLoadAll(fs.readFileSync(path.join(__dirname, 'mock-incoming-changes.yaml'), 'utf-8'))[0],
+  oldVersion: getOldVersion(),
+  newVersion: getNewVersion(),
+  operation: 'displacements',
+}
+
+migrateValues(param['otomiValues'], param['changes'], param['oldVersion'], param['newVersion'], param['operation'])
