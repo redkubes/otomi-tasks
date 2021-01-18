@@ -56,6 +56,7 @@
     "js-yaml": "^3.14.0",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^10.2.11",
+    "minimist": "^1.2.5",
     "mocha": "^7.2.0",
     "nock": "^13.0.3",
     "node-notifier": "^8.0.0",
@@ -118,7 +119,7 @@
     "tasks:harbor": "node dist/tasks/harbor/harbor.js",
     "tasks:harbor-dev": "ts-node-dev ./src/tasks/harbor/harbor.ts",
     "tasks:migrate-values": "node dist/tasks/migrate-values/index.js",
-    "tasks:migrate-values-dev": "ts-node-dev ./src/tasks/migrate-values/index.ts",
+    "tasks:migrate-values-dev": "node -r ts-node/register ./src/tasks/migrate-values/index.ts",
     "test": "NODE_ENV=test mocha --timeout 25000 -r ts-node/register -r ts-custom-error src/**/*.test.* --exit",
     "test-mv": "NODE_ENV=test mocha --timeout 25000 -r ts-node/register -r ts-custom-error src/tasks/migrate-values/test/migrate-values.test.ts --exit"
   },
