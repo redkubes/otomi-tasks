@@ -117,8 +117,8 @@
     "tasks:keycloak-dev": "ts-node-dev ./src/tasks/keycloak/keycloak.ts",
     "tasks:harbor": "node dist/tasks/harbor/harbor.js",
     "tasks:harbor-dev": "ts-node-dev ./src/tasks/harbor/harbor.ts",
-    "tasks:migrate-values": "node dist/tasks/migrate-values/migrate-values.js",
-    "tasks:migrate-values-dev": "ts-node-dev ./src/tasks/migrate-values/migrate-values.ts",
+    "tasks:migrate-values": "node dist/tasks/migrate-values/index.js",
+    "tasks:migrate-values-dev": "ts-node-dev ./src/tasks/migrate-values/index.ts",
     "test": "NODE_ENV=test mocha --timeout 25000 -r ts-node/register -r ts-custom-error src/**/*.test.* --exit",
     "test-mv": "NODE_ENV=test mocha --timeout 25000 -r ts-node/register -r ts-custom-error src/tasks/migrate-values/test/migrate-values.test.ts --exit"
   },
