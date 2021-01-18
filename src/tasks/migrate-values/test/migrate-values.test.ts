@@ -21,14 +21,13 @@ describe('migrate-values.ts', () => {
     actual path: ${testPath}
     `)
   }
-  xdescribe('acceptance-tests', () => {
-    it('')
+  describe('acceptance-tests', () => {
     it('can migrate displacements', () => {
       mv.globWrapper(testPath, (files) => {
         assert.deepEqual(
           mv.migrateValues(
-            mv.otomiValuesLoader(files),
-            mockIncomingChanges,
+            mv.otomiValuesLoader(files, 'mock.yaml'),
+            mockIncomingChanges[0],
             mv.getOldVersion(),
             mv.getNewVersion(),
             'displacements',
@@ -37,15 +36,18 @@ describe('migrate-values.ts', () => {
             old: {
               charts: {
                 president: {
-                  lastname: 'Lincoln',
+                  lastName: 'Lincoln',
                 },
               },
             },
             new: {
               charts: {
+                president: {
+                  lastName: 'Lincoln',
+                },
                 'cert-manager': {
                   president: {
-                    lastname: 'Lincoln',
+                    lastName: 'Lincoln',
                   },
                 },
               },
