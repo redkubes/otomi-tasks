@@ -37,3 +37,6 @@ dist
 .history
 
 kms.json*
+
+# Authentication
+.env
