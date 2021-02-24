@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { Issuer } from 'openid-client'
 import {
   ClientsApi,
