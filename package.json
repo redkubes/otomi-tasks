@@ -112,7 +112,7 @@
     "cz:retry": "git-cz --retry",
     "husky:lint-staged": "lint-staged",
     "husky:pre-commit": "run-p lint husky:lint-staged",
-    "lint": "eslint --fix --ext js,ts .",
+    "lint": "eslint --ext js,ts src/tasks/yqs/**/*.ts",
     "lint:fix": "eslint --fix --ext js,ts .",
     "release": "standard-version",
     "tasks:certs-aws": "node dist/tasks/otomi/certs-aws.js",
@@ -121,8 +121,8 @@
     "tasks:keycloak-dev": "ts-node-dev ./src/tasks/keycloak/keycloak.ts",
     "tasks:harbor": "node dist/tasks/harbor/harbor.js",
     "tasks:harbor-dev": "ts-node-dev ./src/tasks/harbor/harbor.ts",
-    "task:yqs": "node dist/tasks/migrate-values/index.js",
-    "task:yqs": "node -r ts-node/register ./src/tasks/migrate-values/index.ts",
+    "task:yqs": "node dist/tasks/yqs/yqs.js",
+    "task:yqs-dev": "node -r ts-node/register ./src/tasks/yqs/yqs.ts",
     "test": "standard && NODE_ENV=test mocha --timeout 25000 -r ts-node/register -r ts-custom-error src/**/*.test.* --exit"
   },
   "standard-version": {
