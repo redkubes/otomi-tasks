@@ -112,7 +112,7 @@
     "cz:retry": "git-cz --retry",
     "husky:lint-staged": "lint-staged",
     "husky:pre-commit": "run-p lint husky:lint-staged",
-    "lint": "eslint --ext js,ts src/tasks/yqs/**/*.ts",
+    "lint": "eslint --ext js,ts .",
     "lint:fix": "eslint --fix --ext js,ts .",
     "release": "standard-version",
     "tasks:certs-aws": "node dist/tasks/otomi/certs-aws.js",
