@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { expect } from 'chai'
 import { matches, map, pick, sortBy } from 'lodash'
 import sinon from 'sinon'
