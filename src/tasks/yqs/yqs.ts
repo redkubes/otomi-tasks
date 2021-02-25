@@ -1,6 +1,7 @@
-import yargs = require('yargs/yargs')
+import yargs from 'yargs/yargs'
+import { hideBin } from 'yargs/helpers'
 
-const argv = yargs(process.argv.slice(2))
+const argv = yargs(hideBin(process.argv))
   .options({
     s: { type: 'string', alias: 'schema', demandOption: true },
   })
