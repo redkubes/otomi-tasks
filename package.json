@@ -48,7 +48,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-chai-expect": "^2.2.0",
     "eslint-plugin-chai-friendly": "^0.6.0",
     "eslint-plugin-import": "^2.22.1",
@@ -71,8 +71,8 @@
     "standard-version": "^9.1.1",
     "supertest": "^4.0.2",
     "ts-custom-error": "^3.2.0",
-    "ts-node": "^9.1.1",
-    "ts-node-dev": "^1.1.4",
+    "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.1.1",
     "typescript": "^3.9.9",
     "yaml": "^1.10.0"
   },
@@ -121,8 +121,8 @@
     "tasks:keycloak-dev": "ts-node-dev ./src/tasks/keycloak/keycloak.ts",
     "tasks:harbor": "node dist/tasks/harbor/harbor.js",
     "tasks:harbor-dev": "ts-node-dev ./src/tasks/harbor/harbor.ts",
-    "task:yqs": "node dist/tasks/yqs/yqs.js",
-    "task:yqs-dev": "node -r ts-node/register ./src/tasks/yqs/yqs.ts",
+    "task:migrate-values": "node dist/tasks/migrate-values/index.js",
+    "task:migrate-values-dev": "node -r ts-node/register ./src/tasks/migrate-values/index.ts",
     "test": "standard && NODE_ENV=test mocha --timeout 25000 -r ts-node/register -r ts-custom-error src/**/*.test.* --exit"
   },
   "standard-version": {
