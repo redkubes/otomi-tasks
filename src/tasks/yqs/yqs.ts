@@ -1,8 +1,11 @@
 import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
 
+declare module 'hideBin' {}
+
 const argv = yargs(hideBin(process.argv))
   .options({
-    s: { type: 'string', alias: 'schema', demandOption: true },
+    schema: { alias: 's', type: 'string', demandOption: true },
+    changes: { alias: 'c', type: 'array' },
   })
   .help().argv
