@@ -38,6 +38,7 @@ const giteaOperator = {
   oidcConfig: {},
 }
 const errors: string[] = []
+console.log('errors', JSON.stringify(errors, null, 2))
 
 const readOnlyTeam: CreateTeamOption = {
   ...new CreateTeamOption(),

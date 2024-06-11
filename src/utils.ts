@@ -42,6 +42,7 @@ export async function doApiCall(
   } catch (e) {
     console.warn(e.body ?? `${e}`)
     if (e.statusCode) {
+      console.log('doApiCall errors', JSON.stringify(e, null, 2))
       if (e.statusCode === statusCodeExists) console.warn(`${action} > already exists.`)
       else errors.push(`${action} > HTTP error ${e.statusCode}: ${e.message}`)
     } else errors.push(`${action} > Unknown error: ${e.message}`)
