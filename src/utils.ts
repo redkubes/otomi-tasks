@@ -32,7 +32,7 @@ export async function doApiCall(
   errors: string[],
   action: string,
   fn: () => Promise<openapiResponse>,
-  statusCodeExists = 409,
+  statusCodeExists = 422,
 ): Promise<any | undefined> {
   console.info(action)
   try {
