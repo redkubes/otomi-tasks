@@ -1,4 +1,4 @@
-import Operator, { ResourceEventType } from '@dot-i/k8s-operator'
+import Operator from '@dot-i/k8s-operator'
 import * as k8s from '@kubernetes/client-node'
 import stream from 'stream'
 
@@ -67,35 +67,35 @@ if (process.env.KUBERNETES_SERVICE_HOST && process.env.KUBERNETES_SERVICE_PORT) 
 }
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api)
 
-// Callbacks
-const secretsAndConfigmapsCallback = async (e: any) => {
-  const { object } = e
-  const { metadata, data } = object
+// // Callbacks
+// const secretsAndConfigmapsCallback = async (e: any) => {
+//   const { object } = e
+//   const { metadata, data } = object
 
-  if (object.kind === 'Secret' && metadata.name === 'gitea-admin') {
-    giteaOperator.giteaPassword = Buffer.from(data.giteaPassword, 'base64').toString()
-    giteaOperator.oidcConfig = JSON.parse(Buffer.from(data.oidcConfig, 'base64').toString())
-  } else if (object.kind === 'ConfigMap' && metadata.name === 'gitea-operator-cm') {
-    giteaOperator.giteaUrl = data.giteaUrl
-    giteaOperator.hasArgocd = data.hasArgocd === 'true'
-    giteaOperator.teamConfig = JSON.parse(data.teamConfig)
-    giteaOperator.domainSuffix = data.domainSuffix
-  } else return
+//   if (object.kind === 'Secret' && metadata.name === 'gitea-admin') {
+//     giteaOperator.giteaPassword = Buffer.from(data.giteaPassword, 'base64').toString()
+//     giteaOperator.oidcConfig = JSON.parse(Buffer.from(data.oidcConfig, 'base64').toString())
+//   } else if (object.kind === 'ConfigMap' && metadata.name === 'gitea-operator-cm') {
+//     giteaOperator.giteaUrl = data.giteaUrl
+//     giteaOperator.hasArgocd = data.hasArgocd === 'true'
+//     giteaOperator.teamConfig = JSON.parse(data.teamConfig)
+//     giteaOperator.domainSuffix = data.domainSuffix
+//   } else return
 
-  switch (e.type) {
-    case ResourceEventType.Added:
-    case ResourceEventType.Modified: {
-      try {
-        await runSetupGitea()
-      } catch (error) {
-        console.debug(error)
-      }
-      break
-    }
-    default:
-      break
-  }
-}
+//   switch (e.type) {
+//     case ResourceEventType.Added:
+//     case ResourceEventType.Modified: {
+//       try {
+//         await runSetupGitea()
+//       } catch (error) {
+//         console.debug(error)
+//       }
+//       break
+//     }
+//     default:
+//       break
+//   }
+// }
 
 const namespacesCallback = async (e: any) => {
   const { object }: { object: k8s.V1Pod } = e
@@ -110,18 +110,6 @@ const namespacesCallback = async (e: any) => {
 export default class MyOperator extends Operator {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected async init() {
-    // Watch gitea-operator-secrets
-    try {
-      await this.watchResource('', 'v1', 'secrets', secretsAndConfigmapsCallback, 'gitea-operator')
-    } catch (error) {
-      console.debug(error)
-    }
-    // Watch gitea-operator-cm
-    try {
-      await this.watchResource('', 'v1', 'configmaps', secretsAndConfigmapsCallback, 'gitea-operator')
-    } catch (error) {
-      console.debug(error)
-    }
     // Watch all namespaces
     try {
       await this.watchResource('', 'v1', 'namespaces', namespacesCallback)
@@ -148,17 +136,17 @@ if (typeof require !== 'undefined' && require.main === module) {
 }
 
 // Runners
-async function runSetupGitea() {
-  try {
-    await setupGitea()
-  } catch (error) {
-    console.debug('Error could not run setup gitea', error)
-    console.debug('Retrying in 30 seconds')
-    await new Promise((resolve) => setTimeout(resolve, 30000))
-    console.debug('Retrying to setup gitea')
-    await runSetupGitea()
-  }
-}
+// async function runSetupGitea() {
+//   try {
+//     await setupGitea()
+//   } catch (error) {
+//     console.debug('Error could not run setup gitea', error)
+//     console.debug('Retrying in 30 seconds')
+//     await new Promise((resolve) => setTimeout(resolve, 30000))
+//     console.debug('Retrying to setup gitea')
+//     await runSetupGitea()
+//   }
+// }
 
 async function runExecCommand() {
   try {
