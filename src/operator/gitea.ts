@@ -110,12 +110,14 @@ const namespacesCallback = async (e: any) => {
 export default class MyOperator extends Operator {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   protected async init() {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    this.logger.info('Gitea Operator started!')
     // Watch all namespaces
-    try {
-      await this.watchResource('', 'v1', 'namespaces', namespacesCallback)
-    } catch (error) {
-      console.debug(error)
-    }
+    // try {
+    //   await this.watchResource('', 'v1', 'namespaces', namespacesCallback)
+    // } catch (error) {
+    //   console.debug(error)
+    // }
   }
 }
 
